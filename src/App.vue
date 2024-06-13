@@ -1,21 +1,31 @@
 <script setup>
+import { onBeforeMount, ref } from "vue";
 import HelloWorld from "./components/HelloWorld.vue";
 import PWABadge from "./components/PWABadge.vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
 
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  // Stash the event so it can be triggered later.
-  this.deferredPrompt = e;
+const deferredPrompt = ref();
+
+onBeforeMount(() => {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt.value = e;
+    console.log("beforeinstallprompt", e);
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredPrompt.value = null;
+    console.log("appinstalled", e);
+  });
 });
-window.addEventListener("appinstalled", () => {
-  this.deferredPrompt = null;
-});
+
 function dismiss() {
-  this.deferredPrompt = null;
+  deferredPrompt.value = null;
 }
+
 function install() {
-  this.deferredPrompt.prompt();
+  deferredPrompt.value.prompt();
 }
 </script>
 
@@ -30,6 +40,7 @@ function install() {
       <v-btn text @click="install">Install</v-btn>
     </template>
   </v-banner>
+
   <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/favicon.svg" class="logo" alt="vue-pwa-app logo" />
