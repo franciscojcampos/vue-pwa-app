@@ -2,10 +2,34 @@
 import HelloWorld from "./components/HelloWorld.vue";
 import PWABadge from "./components/PWABadge.vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  this.deferredPrompt = e;
+});
+window.addEventListener("appinstalled", () => {
+  this.deferredPrompt = null;
+});
+function dismiss() {
+  this.deferredPrompt = null;
+}
+function install() {
+  this.deferredPrompt.prompt();
+}
 </script>
 
 <template>
   <ReloadPWA />
+  <v-banner v-if="deferredPrompt" color="info" dark class="text-left">
+    Get our free app. It won't take up space on your phone and also works
+    offline!
+
+    <template v-slot:actions>
+      <v-btn text @click="dismiss">Dismiss</v-btn>
+      <v-btn text @click="install">Install</v-btn>
+    </template>
+  </v-banner>
   <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/favicon.svg" class="logo" alt="vue-pwa-app logo" />

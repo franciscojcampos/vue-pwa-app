@@ -22,11 +22,26 @@ export default defineConfig({
       },
 
       manifest: {
-        name: "vue-pwa-app",
-        short_name: "vue-pwa-app",
+        name: "vue pwa app",
+        shortName: "vue pwa app",
+        startUrl: "/",
+        display: "fullscreen",
+        backgroundColor: "#ff00ff",
+        lang: "en",
+        scope: "/",
         description: "PWA Vue Application",
-        theme_color: "#ffffff",
-        display: "standalone",
+        themeColor: "#ff00ff",
+        icons: [
+          { src: "favicon.svg", sizes: "64x64", type: "image/svg+xml" },
+          { src: "favicon.svg", sizes: "192x192", type: "image/svg+xml" },
+          { src: "favicon.svg", sizes: "512x512", type: "image/svg+xml" },
+          {
+            src: "favicon.svg",
+            sizes: "512x512",
+            type: "image/svg+xml",
+            purpose: "maskable",
+          },
+        ],
       },
 
       workbox: {
