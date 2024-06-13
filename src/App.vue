@@ -31,15 +31,12 @@ function install() {
 
 <template>
   <ReloadPWA />
-  <v-banner v-if="deferredPrompt" color="info" dark class="text-left">
+  <div v-if="deferredPrompt" color="info" dark class="text-left">
     Get our free app. It won't take up space on your phone and also works
     offline!
-
-    <template v-slot:actions>
-      <v-btn text @click="dismiss">Dismiss</v-btn>
-      <v-btn text @click="install">Install</v-btn>
-    </template>
-  </v-banner>
+    <button type="button" @click="dismiss">Dismiss</button>
+    <button type="button" @click="install">Install</button>
+  </div>
 
   <div>
     <a href="https://vitejs.dev" target="_blank">
